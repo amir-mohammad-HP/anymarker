@@ -1,0 +1,54 @@
+superuser:
+    hamidi
+        Amirmohammad
+        
+-User:
+    ./ get_collections: Collection.filter(user = self.id)
+
+-Collection:
+    => User AUTH_USER_MODEL
+    
+
+-Marks:
+    => Collection -f
+    -> name text
+    -> create_on date    
+    -> model choicetext
+    ./ access_type(): Type_center(self.text, self.id)
+
+-TypeURL:
+    => Marks -f
+    -> url url
+    -> create_on date  
+
+-TypeImage:
+    => Marks -f
+    -> image imagefield
+    -> create_on date  
+
+-Typefile:
+    => Marks -f
+    -> file filefield
+    -> create_on date  
+
+-TypeNotes:
+    => Marks -f
+    -> note text
+    -> create_on date  
+
+-Type_center:
+    ./ modelType(type, marks_id): modelType.get(Marks = marks_id)=> TypeURL, TypeNotes, Typefile, TypeImage
+
+
+
+views:
+    rest_api : create Collection
+    rest_api : delete Collection
+    rest_api : edit Collection
+
+    rest_api : create mark . signal : mark_content_create
+    rest_api : delete mark
+    
+    rest_api : mark_content_edit
+
+    

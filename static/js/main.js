@@ -1,0 +1,60 @@
+$(document).ready(function () {
+
+    // Spinner
+    var spinner = function () {
+        setTimeout(function () {
+            if ($('#spinner').length > 0) {
+                $('#spinner').removeClass('show');
+            }
+        }, 1);
+    };
+    spinner();
+    
+    
+    // Back to top button
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 300) {
+            $('.back-to-top').fadeIn('slow');
+        } else {
+            $('.back-to-top').fadeOut('slow');
+        }
+    });
+    $('.back-to-top').click(function () {
+        $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
+        return false;
+    });
+
+
+    // Sidebar Toggler
+    $('.sidebar-toggler').click(function () {
+        $('.sidebar, .content').toggleClass("open");
+        return false;
+    });
+
+    // CONTROL CONTENT :
+
+        // get personal information 
+            let userName = 'username';
+            let userEmail = 'useremail@gmail.com';
+
+        // - apply personal information
+            $("#UserName").text(userName);
+            $("#UserEmail").text(userEmail);
+
+        // get collections information 
+
+        // - apply collections information
+
+        // get marks information
+
+        // - apply marks information
+
+        // get notifications
+
+        // - apply notifications
+
+        
+
+}
+)
+
