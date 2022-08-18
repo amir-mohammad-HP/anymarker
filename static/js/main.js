@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     // Spinner
     var spinner = function () {
         setTimeout(function () {
@@ -30,31 +29,47 @@ $(document).ready(function () {
         $('.sidebar, .content').toggleClass("open");
         return false;
     });
-
+    
+    
     // CONTROL CONTENT :
-
-        // get personal information 
-            let userName = 'username';
-            let userEmail = 'useremail@gmail.com';
-
-        // - apply personal information
-            $("#UserName").text(userName);
-            $("#UserEmail").text(userEmail);
-
         // get collections information 
 
-        // - apply collections information
+            // - apply collections information
 
-        // get marks information
+            $.ajax({
+                url : "http://127.0.0.1:8000/api/collection/?format=json",
+                dataType: "json",
+                success : function (data) {
+                        $("#slider").empty()
+                        
+                        function collection_handler(collection_data){
+                            
+                            // get marks information
 
-        // - apply marks information
+                            let sliderItem = `
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>`+ collection_data.name +`</a>
+                                    <div class="dropdown-menu bg-transparent border-0">
+                                        <a href="button.html" class="dropdown-item">Buttons</a> 
+                                        <a href="typography.html" class="dropdown-item">Typography</a>
+                                        <a href="element.html" class="dropdown-item">Other Elements</a>
+                                    </div>
+                                </div>
+                            `;
+                            $("#slider").append(sliderItem);
+                        };
+                        data.forEach(element => {
+                            collection_handler(element)
+                        });
+                    }
+                    });
 
+    
         // get notifications
 
-        // - apply notifications
+            // - apply notifications
 
-        
+})
 
-}
-)
+
 
