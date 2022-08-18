@@ -56,11 +56,13 @@ $(document).ready(function () {
                                     </div>
                                 </div>
                             `;
-                            $("#slider").append(sliderItem);
+                            $("#slider").prepend(sliderItem);
                         };
                         data.forEach(element => {
                             collection_handler(element)
                         });
+                        let button_add_collection = '<a href="index.html" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>add collection</a>'
+                        $("#slider").prepend(button_add_collection)
                     }
                     });
 
