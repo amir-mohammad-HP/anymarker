@@ -50,7 +50,7 @@
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
                 <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+                    <h2 class="text-primary mb-0"><i class="fa fa-bookmark"></i></h2>
                 </a>
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
@@ -108,7 +108,22 @@
             </nav>
             <!-- Navbar End -->
 
+            <div id='Content_main'></div>
+            
+
     </div>
+    
+
+    {% comment %} <div id='Content'></div> {% endcomment %}
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    <script type='text/javascript'>
+        let ContentProfileView = `{{ template.profileView }}`
+    </script>
+    
 
 
 {% endblock body %}

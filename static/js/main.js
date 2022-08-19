@@ -18,8 +18,10 @@ $(document).ready(function () {
             $('.back-to-top').fadeOut('slow');
         }
     });
+
     $('.back-to-top').click(function () {
-        $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
+        // $('html, body').animate({scrollTop: 0}, 1700, 'easeInOutExpo');
+        $('html, body').scrollTop(1)
         return false;
     });
 
@@ -65,6 +67,8 @@ $(document).ready(function () {
                         $("#slider").prepend(button_add_collection)
                     }
                     });
+            $("#Content_main").empty()
+            $("#Content_main").html(ContentProfileView)
 
     
         // get notifications
