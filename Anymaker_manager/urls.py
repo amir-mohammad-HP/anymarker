@@ -56,6 +56,8 @@ class UserViewSet(viewsets.ModelViewSet):
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'collection', api_views.CollectionViewSet)
+router.register(r'mark', api_views.MarkViewSet)
+
 
 urlpatterns += [
     path('api/', include(router.urls)),

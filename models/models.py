@@ -6,6 +6,13 @@ import datetime
 from django.core.exceptions import SuspiciousOperation
 from uuid import uuid1
 
+MODELS = (
+        ('url', _('url')),
+        ('image', _('image')),
+        ('file', _('file')),
+        ('note', _('note')),
+    )
+
 
 class Collection(models.Model):
     name = models.CharField(
@@ -39,13 +46,6 @@ class Mark(models.Model):
         _('create on'),
         auto_now_add=True,
         editable=False,
-    )
-
-    MODELS = (
-        ('url', _('url')),
-        ('image', _('image')),
-        ('file', _('file')),
-        ('note', _('note')),
     )
     
     model = models.CharField(
@@ -85,16 +85,16 @@ class MODEL(models.Model):
     @property
     def model(self):
         if self.url:
-            model_type = Mark.MODELS[0][0]
+            model_type = MODELS[0][0]
             model = self.url
         elif self.image:
-            model_type = Mark.MODELS[1][0]
+            model_type = MODELS[1][0]
             model = str(self.image)
         elif self.file:
-            model_type = Mark.MODELS[2][0]
+            model_type = MODELS[2][0]
             model = self.file
         elif self.note:
-            model_type = Mark.MODELS[3][0]
+            model_type = MODELS[3][0]
             model = self.note
         else:
             raise SuspiciousOperation(self.__class__.__name__,)

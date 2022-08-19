@@ -1,9 +1,11 @@
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
+
 
 # Create your views here.
 
-class Collection(TemplateView):
+class Collection(LoginRequiredMixin, TemplateView):
     template_name = 'js_api_site/collection.html'
 
     def get_context_data(self, **kwargs):
