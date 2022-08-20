@@ -57,6 +57,9 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'collection', api_views.CollectionViewSet)
 router.register(r'mark', api_views.MarkViewSet)
+router.register(r'urls', api_views.URL_ViewSet)
+router.register(r'images', api_views.IMAGE_ViewSet)
+router.register(r'notes', api_views.NOTE_ViewSet)
 
 
 urlpatterns += [

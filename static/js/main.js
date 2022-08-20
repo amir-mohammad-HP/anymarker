@@ -45,16 +45,14 @@ $(document).ready(function () {
                         $("#slider").empty()
                         
                         function collection_handler(collection_data){
-                            
-                            // get marks information
 
                             let sliderItem = `
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>`+ collection_data.name +`</a>
-                                    <div class="dropdown-menu bg-transparent border-0">
-                                        <a href="button.html" class="dropdown-item">Buttons</a> 
-                                        <a href="typography.html" class="dropdown-item">Typography</a>
-                                        <a href="element.html" class="dropdown-item">Other Elements</a>
+                                    <div class="dropdown-menu bg-transparent border-0" id="collection-`+ collection_data.id +`">
+                                        <!-- link to marks
+                                            <a href="button.html" class="dropdown-item">Buttons</a> 
+                                        -->
                                     </div>
                                 </div>
                             `;
@@ -70,12 +68,81 @@ $(document).ready(function () {
             $("#Content_main").empty()
             $("#Content_main").html(ContentProfileView)
 
-    
+        // get marks 
+            $.ajax({
+                url : "http://127.0.0.1:8000/api/mark/?format=json",
+                dataType: "json",
+                success : function (data) {
+
+                        mark_data = data;
+
+                        function collection_id_handler(mark){
+                            
+                            let Item_html = `
+                                <a class="dropdown-item" id="mark-`+ mark.id +`">`+ mark.name +`</a> 
+                            `;
+
+                            $("#collection-"+ mark.collection).prepend(Item_html);
+
+                            let mark_id = "#mark-" + mark.id ;
+
+                            $(mark_id).css('cursor', 'pointer'); // fix css cursor on element
+                            
+                            // add onclick event listenner
+                            $(mark_id).on('click', function(){
+                                toggleContentSpinner();
+                                // get the information of the selected mark
+                                    $.ajax({
+                                        url : "",
+                                        dataType:"json",
+                                        success : function (data){
+                                            // get information and untoggleContentSpiner()
+
+                                        }
+                                    })
+                            })
+                        };
+                        data.forEach(element => {
+                            collection_id_handler(element)
+                        });
+                    }
+                    });
+        
+        // mark controls functions :
         // get notifications
 
             // - apply notifications
 
 })
+
+const toggleContentSpinner = () => {
+    if ($('#content-spinner').length) {
+
+    }else{
+
+        let spin_content = `
+            <!-- content spiner -->
+            <div id="content-spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <!-- end of content spinner -->
+        `;
+
+        $('#Content_main').empty();
+        $('#content').prepend(spin_content);
+
+    }
+}
+
+const untoggleContentSpinner = () => {
+    if ($('#content-spinner').length) {
+
+        $('#content-spinner').remove();
+        
+};
+}
 
 
 

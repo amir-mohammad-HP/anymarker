@@ -26,4 +26,44 @@ class MarkViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return super().get_queryset().filter(collection__user = self.request.user).order_by('-collection')
 
+class URL_ViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Mark to be viewed or edited.
+    """
+    queryset = models.URL.objects.all()
+    serializer_class = URL_Serializer
+    lookup_field = 'mark'
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            mark__collection__user = self.request.user,
+            )
     
+class IMAGE_ViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Mark to be viewed or edited.
+    """
+    queryset = models.IMAGE.objects.all()
+    serializer_class = IMAGE_Serializer
+    lookup_field = 'mark'
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            mark__collection__user = self.request.user,
+            )
+    
+class NOTE_ViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Mark to be viewed or edited.
+    """
+    queryset = models.NOTE.objects.all()
+    serializer_class = NOTE_Serializer
+    lookup_field = 'mark'
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            mark__collection__user = self.request.user,
+            )
