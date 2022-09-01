@@ -24,6 +24,7 @@ urlpatterns = [
     path("favicon.ico",RedirectView.as_view(url=staticfiles_storage.url("favicon.png")),),
     path('', include('js_api_site.urls')),
     path('calls/', include('api.urls')),
+    path("accounts/", include("authentification.urls")),
 ]
 
 

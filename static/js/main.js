@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    
     // Spinner
     var spinner = function () {
         setTimeout(function () {
@@ -32,6 +33,7 @@ $(document).ready(function () {
         return false;
     });
     
+    const hostName = window.location.origin;
     
     // CONTROL CONTENT :
         // get collections information 
@@ -39,7 +41,7 @@ $(document).ready(function () {
             // - apply collections information
 
             $.ajax({
-                url : "http://127.0.0.1:8000/api/collection/?format=json",
+                url : hostName + "/api/collection/?format=json",
                 dataType: "json",
                 success : function (data) {
                         $("#slider").empty()
@@ -70,7 +72,7 @@ $(document).ready(function () {
 
         // get marks 
             $.ajax({
-                url : "http://127.0.0.1:8000/api/mark/?format=json",
+                url : hostName + "/api/mark/?format=json",
                 dataType: "json",
                 success : function (data) {
 
@@ -92,14 +94,26 @@ $(document).ready(function () {
                             $(mark_id).on('click', function(){
                                 toggleContentSpinner();
                                 // get the information of the selected mark
-                                    $.ajax({
-                                        url : "",
-                                        dataType:"json",
-                                        success : function (data){
-                                            // get information and untoggleContentSpiner()
+                                    let mark_relevant_detail_url;
+                                    if (mark.model == 'url'){
 
-                                        }
-                                    })
+                                        mark_relevant_detail_url = hostName + "/api/urls/" + mark.id + "/?format=json";
+                                        built_url_view(mark_relevant_detail_url, mark);
+                                        untoggleContentSpinner();
+
+                                    } else if (mark.model == 'image'){
+
+                                        mark_relevant_detail_url = hostName + "/api/images/" + mark.id + "/?format=json";
+                                        built_image_view(mark_relevant_detail_url, mark);
+                                        untoggleContentSpinner();
+
+                                    }else if (mark.model == 'note'){
+
+                                        mark_relevant_detail_url = hostName + "/api/notes/" + mark.id + "/?format=json";
+                                        built_note_view(mark_relevant_detail_url, mark);
+                                        untoggleContentSpinner();
+                                    }
+                                    
                             })
                         };
                         data.forEach(element => {
@@ -121,13 +135,11 @@ const toggleContentSpinner = () => {
     }else{
 
         let spin_content = `
-            <!-- content spiner -->
             <div id="content-spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
                 <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-            <!-- end of content spinner -->
         `;
 
         $('#Content_main').empty();
@@ -144,5 +156,52 @@ const untoggleContentSpinner = () => {
 };
 }
 
+const built_url_view = (url, markData) => {
+    $.ajax({
+        url : url,
+        dataType:"json",
+        success : function (data){
+            // get information and untoggleContentSpiner()
+            if (data.detail === 'Not found.'){
+
+            }else{
+            console.log(markData)
+            console.log(data.url)
+            }
+        }
+    })
+}
+
+const built_image_view = (url, markData) => {
+    $.ajax({
+        url : url,
+        dataType:"json",
+        success : function (data){
+            // get information and untoggleContentSpiner()
+            if (data.detail === 'Not found.'){
+
+            }else{
+            console.log(markData)
+            console.log(data.image)
+            }
+        }
+    })
+}
+
+const built_note_view = (url, markData) => {
+    $.ajax({
+        url : url,
+        dataType:"json",
+        success : function (data){
+            // get information and untoggleContentSpiner()
+            if (data.detail === 'Not found.'){
+
+            }else{
+            console.log(markData)
+            console.log(data.note)
+            }
+        }
+    })
+}
 
 
