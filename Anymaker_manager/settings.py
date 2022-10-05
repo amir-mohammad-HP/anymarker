@@ -150,5 +150,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # reassign User model:
 AUTH_USER_MODEL = 'authentification.User'
 AUTHENTICATION_BACKENDS = [
-    'authentification.backends.EmailAuthentification'
+    'django.contrib.auth.backends.ModelBackend',
+    'authentification.backends.EmailAuthentification',
     ]

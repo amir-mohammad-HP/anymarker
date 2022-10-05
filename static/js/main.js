@@ -68,7 +68,8 @@ $(document).ready(function () {
                     }
                     });
             $("#Content_main").empty()
-            $("#Content_main").html(ContentProfileView)
+            // this is the first view user will see
+            $("#Content_main").html(ContentProfileView) // the ContentProfileView has defined in the collection.html, 
 
         // get marks 
             $.ajax({
@@ -92,27 +93,26 @@ $(document).ready(function () {
                             
                             // add onclick event listenner
                             $(mark_id).on('click', function(){
+                                
+                                $('#Content_main').empty()
                                 toggleContentSpinner();
+                               
                                 // get the information of the selected mark
-                                    let mark_relevant_detail_url;
-                                    if (mark.model == 'url'){
+                                let mark_relevant_detail_url;
+                                if (mark.model == 'url'){
 
-                                        mark_relevant_detail_url = hostName + "/api/urls/" + mark.id + "/?format=json";
-                                        built_url_view(mark_relevant_detail_url, mark);
-                                        untoggleContentSpinner();
+                                    mark_relevant_detail_url = hostName + "/api/urls/" + mark.id + "/?format=json";
 
-                                    } else if (mark.model == 'image'){
+                                } else if (mark.model == 'image'){
 
-                                        mark_relevant_detail_url = hostName + "/api/images/" + mark.id + "/?format=json";
-                                        built_image_view(mark_relevant_detail_url, mark);
-                                        untoggleContentSpinner();
+                                    mark_relevant_detail_url = hostName + "/api/images/" + mark.id + "/?format=json";
 
-                                    }else if (mark.model == 'note'){
+                                } else if (mark.model == 'note'){
 
-                                        mark_relevant_detail_url = hostName + "/api/notes/" + mark.id + "/?format=json";
-                                        built_note_view(mark_relevant_detail_url, mark);
-                                        untoggleContentSpinner();
-                                    }
+                                    mark_relevant_detail_url = hostName + "/api/notes/" + mark.id + "/?format=json";
+                                };
+                                built_note_view(mark_relevant_detail_url, mark);
+                                untoggleContentSpinner();
                                     
                             })
                         };
@@ -133,9 +133,8 @@ const toggleContentSpinner = () => {
     if ($('#content-spinner').length) {
 
     }else{
-
         let spin_content = `
-            <div id="content-spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div id="content-spinner" class="show bg-dark position-relative translate-end w-100 vh-100 top-50 start-0 d-flex align-items-center justify-content-center">
                 <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
@@ -143,7 +142,7 @@ const toggleContentSpinner = () => {
         `;
 
         $('#Content_main').empty();
-        $('#content').prepend(spin_content);
+        $('#Content_main').prepend(spin_content);
 
     }
 }
@@ -156,52 +155,41 @@ const untoggleContentSpinner = () => {
 };
 }
 
-const built_url_view = (url, markData) => {
-    $.ajax({
-        url : url,
-        dataType:"json",
-        success : function (data){
-            // get information and untoggleContentSpiner()
-            if (data.detail === 'Not found.'){
-
-            }else{
-            console.log(markData)
-            console.log(data.url)
-            }
-        }
-    })
-}
-
-const built_image_view = (url, markData) => {
-    $.ajax({
-        url : url,
-        dataType:"json",
-        success : function (data){
-            // get information and untoggleContentSpiner()
-            if (data.detail === 'Not found.'){
-
-            }else{
-            console.log(markData)
-            console.log(data.image)
-            }
-        }
-    })
-}
-
 const built_note_view = (url, markData) => {
     $.ajax({
         url : url,
         dataType:"json",
         success : function (data){
-            // get information and untoggleContentSpiner()
-            if (data.detail === 'Not found.'){
-
-            }else{
-            console.log(markData)
-            console.log(data.note)
-            }
-        }
+            built_view(data, url, markData)
+        },
+        error: function () {
+            
+            $('#Content_main').empty();
+            $('#Content_main').prepend(`
+            <div id="404" class="position-relative translate-end w-100 vh-100 top-50 start-0 d-flex align-items-center justify-content-center">
+                the request wasn't success , information not found
+            </div>
+            `);
+        },
     })
 }
 
+const built_view = (data, url, markData) => {
+    if (data.detail === 'Not found.'){
+        $('#Content_main').empty();
+        $('#Content_main').prepend(`
+        <div id="404" class="position-relative translate-end w-100 vh-100 top-50 start-0 d-flex align-items-center justify-content-center">
+               the request wasn't success , information not found , must maintain the partition to create parts
+        </div>
+        `);
+
+    }else{
+
+        let view = '<p> found </p>';
+        $('#Content_main').empty();
+        $('#Content_main').prepend(view);
+        console.log(markData);
+        console.log(url);
+    }
+}
 

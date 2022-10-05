@@ -1,5 +1,3 @@
-from curses import keyname
-from distutils import dir_util
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_save, post_delete
 from models.models import IMAGE, URL, NOTE
