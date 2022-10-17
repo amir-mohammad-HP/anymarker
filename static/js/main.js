@@ -187,7 +187,7 @@ const built_view = (data, url, markData) => {
 
         let view = '<p> found </p>';
         $('#Content_main').empty();
-        $('#Content_main').prepend(view);
+        $('#Content_main').prepend(data.template);
         console.log(markData);
         console.log(url);
     }
